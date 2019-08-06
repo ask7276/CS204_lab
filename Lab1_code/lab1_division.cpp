@@ -266,6 +266,7 @@ int main(){
 		    cout<<0<<"\n";
 		}
 		else{
+		    s1 = deletefirst(s1);	
 		    cout<<s1<<"\n";
 		}
 
