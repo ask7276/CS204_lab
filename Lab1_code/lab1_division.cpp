@@ -200,7 +200,7 @@ bool com(string s1,string s2){
 
 string deletefirst(string s1){
 	string s2 = s1;
-	for(lli i=0;i<s2.size();i++){
+	for(lli i=0;i<s1.size();i++){
 		if(s2[0]=='0'){
 			s2.erase(s2.begin());
 		}
