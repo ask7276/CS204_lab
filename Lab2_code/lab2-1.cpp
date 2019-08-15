@@ -21,7 +21,7 @@ void addfirst(int a,int b){
 int delfirst(){
     struct node *temp;
     if(start == NULL){
-        return -1;
+        return 0;
     };
     temp = start;
     start = start->ptr;
@@ -30,7 +30,7 @@ int delfirst(){
     return 1;
 }
 
-void del(int a,int b){
+int del(int a,int b){
     struct node *temp,*prev = NULL;
     temp = start;
     int flag=0;
@@ -49,17 +49,17 @@ void del(int a,int b){
                 delete(temp);
                 temp = NULL;
             }   
-            return;
+            return 1;
         }
         else{
             prev = temp;
             temp = temp->ptr;
         }
     }
-    cout<<"node does not exist\n";
+    return 0;
 }
 
-void search(float d){
+int search(float d){
     struct node *temp;
     int flag=0;
     temp = start;
@@ -73,16 +73,17 @@ void search(float d){
         //f = f*f;
         //cout<<f;
         if(f<=d){
-            cout<<"("<<temp->x<<","<<temp->y<<") ";
+            
             flag++;
         };
         temp = temp->ptr;
     };
     if(flag==0){
-        cout<<"no point found\n";
+        return 0;
     }
     else{
-        cout<<"\n";
+        
+        return flag;
     }
 }
 
@@ -121,15 +122,30 @@ int main(){
             addfirst(b,c);
         }
         else if(a==2){
-            delfirst();
+            int ef;
+            ef = delfirst();
+            if(!ef){
+                cout<<"-1\n";
+            };
         }
         else if(a==3){
+            
             cin>>b>>c;
-            del(b,c);
+            int fg=del(b,c);
+            if(!fg){
+                cout<<-1<<"\n";
+            }
         }
         else if(a==4){
             cin>>d;
-            search (d);
+            int gh;
+            gh = search (d);
+            if(!gh){
+                cout<<"-1\n";
+            }
+            else{
+                cout<<gh<<"\n";
+            }
         }
         else if(a==5){
             cin>>b>>c;
@@ -145,27 +161,3 @@ int main(){
     };
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
