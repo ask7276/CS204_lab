@@ -81,18 +81,11 @@ treenode* create(vector<string >c)
             st.pop();       
             t2 = st.top(); 
             st.pop(); 
-  
-            //  make them children 
             t->right = t1; 
             t->left = t2; 
-  
-            // Add this subexpression to stack 
             st.push(t); 
         } 
     } 
-  
-    //  only element will be root of expression 
-    // tree 
     t = st.top(); 
     st.pop(); 
   
@@ -156,7 +149,6 @@ int main(){
                 		else break;
                 	}
                 	
-                	//cout<<c<<" ";
                 	
   					ostringstream str1;
   					str1<<c;
@@ -166,7 +158,14 @@ int main(){
                 }
                 else{
                 	if(s[k] == '+' || s[k]=='-'){
-                			
+                		
+                        if(s[(k-1)]=='(' && s[k]=='-'){
+                            b.pb("0");
+                        }
+                        if(s[(k-1)]=='(' && s[k]=='+'){
+                            b.pb("0");
+                        }
+
                 		for(;!a.empty();){
                 		    d = a.top();
                 			if(d == '*' || d == '/' || d== '^' ||d == '+' || d == '-'){
@@ -206,7 +205,18 @@ int main(){
                 	if(s[k]=='^'){
                 		a.push(s[k]);
                 		continue;
-                	};
+                	}
+                    if(s[k]=='('){
+                        a.push(s[k]);
+                    }
+                    if(s[k]==')'){
+                        for(;a.top()!='(';){
+                            string st5(1,a.top());
+                            b.pb(st5);
+                            a.pop();
+                        }
+                        a.pop();
+                    }
                 }
 
             }
