@@ -43,30 +43,31 @@ int main(){
 		lli max=0;
 		cin>>q;
 		string s;
-		//first to store modified string and second for original
-		vector<pair<string,string>>a;
+		vector<string> t;
+		vector<tuple<string,char,string>>a;
 		ask(j,0,q){
 			cin>>s;
 			if(s.size()>max){
 				max = s.size();
 			};
-			a.pb(mp(s,s));
+			t.pb(s);
 		};
-		//making every number of equal size
+		
 		ask(w,0,q){
-			s = a[w].F;
-			string t = "";
+			s =t[w];
+			string f = "";
 			lli b = max/s.size();
 			ask(j,0,b+1){
-				t.append(s);
+				f.append(s);
 			};
-			a[w].F = t.substr(0,max);
+			s = f.substr(0,max);
+			a.pb(mt(s,t[w][(t[w].size()-1)],t[w]));
 		}
-		//sorting in reverse order
-		sort(a.rbegin(),a.rend());
-		ask(w,0,q){
-			cout<<a[w].S;
-		};
+		sort(a.begin(),a.end());
+		for(lli w=q-1;w>=0;w--){
+		    cout<<get<2>(a[w]);
+		    
+		}
 		cout<<"\n";
 	}
 	return 0;
