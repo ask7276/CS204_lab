@@ -34,7 +34,7 @@ typedef long double ldb;
 #define o4(a,b,c,d) cout<<a<<" "<<b<<" "<<c<<" "<<d<<"\n"
 using namespace std;
 
-lli division(double a[], lli x, lli y, lli z) { 
+lli division(lli a[], lli x, lli y, lli z) { 
 	lli i; 
 	for (i=x; i<y; i++){
 		if (a[i] == z){
@@ -55,28 +55,27 @@ lli division(double a[], lli x, lli y, lli z) {
 	return i; 
 } 
 
-lli findMedian(double a[], lli n) 
+lli findMedian(lli a[], lli n) 
 { 
 	sort(a, a+n); 
 	return a[n/2]; 
 } 
 
-double median(double a[], lli l, lli r, lli k) 
+lli median(lli a[], lli l, lli r, lli k) 
 { 
 	
 	if (k > 0 && k <= r - l + 1) 
 	{ 
 		lli n = r-l+1; 
 		lli i;
-		double med[(n+4)/5];
+		lli med[(n+4)/5];
 		for (i=0; i<n/5; i++) 
 			med[i] = findMedian(a+l+i*5, 5); 
 		if (i*5 < n){ 
 			med[i] = findMedian(a+l+i*5, n%5); 
 			i++; 
 		}	 
-		lli mom = (i == 1)? med[i-1]: 
-								median(med, 0, i-1, i/2); 
+		lli mom = (i == 1)? med[i-1]: median(med, 0, i-1, i/2); 
 
 		lli pos = division(a, l, r, mom); 
 
@@ -95,15 +94,22 @@ int main() {
 	ask(i,0,q){
 		lli n;
 		cin>>n;
-		double a[n];
-		double d1,d2,d3;
+		lli a[n];
+		lli d1,d2,d3;
 		ask(j,0,n){
 			cin>>d1>>d2;
-			d3  =sqrt(d1*d1+d2*d2);
+			d3  =d1*d1+d2*d2;
 			a[j]=d3;
 		};
-		lli k = (n-1)/2;
-		cout<<median(a,0,n-1,k)<<"\n";
+		lli k;
+		
+		if(n%2==0){
+		 	k = n/2 ;
+		}
+		else{
+			k = (n+1)/2;
+		}
+		cout<<sqrt(median(a,0,n-1,k))<<"\n";
 	}
 	return 0; 
 } 
