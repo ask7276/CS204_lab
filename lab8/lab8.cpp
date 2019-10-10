@@ -35,81 +35,79 @@ typedef long double ldb;
 using namespace std;
 
 lli division(lli a[], lli x, lli y, lli z) { 
-	lli i; 
-	for (i=x; i<y; i++){
-		if (a[i] == z){
-			break; 
-		}
-	}
-	swap(a[i], a[y]); 
-	i = x; 
-	for (lli j = x; j < y; j++) 
-	{ 
-		if (a[j] <= z) 
-		{ 
-			swap(a[i], a[j]); 
-			i++; 
-		} 
-	} 
-	swap(a[i], a[y]); 
-	return i; 
+    lli i; 
+    for (i=x; i<y; i++){
+        if (a[i] == z){
+            break; 
+        }
+    }
+    swap(a[i], a[y]); 
+    i = x; 
+    ask(j,x,y){
+        if(a[j]<=z){
+            swap(a[i],a[j]);
+            i++;
+        }
+    }
+    swap(a[i], a[y]); 
+    return i; 
 } 
 
 lli findMedian(lli a[], lli n) 
 { 
-	sort(a, a+n); 
-	return a[n/2]; 
+    sort(a, a+n); 
+    return a[n/2]; 
 } 
 
 lli median(lli a[], lli l, lli r, lli k) 
 { 
-	
-	if (k > 0 && k <= r - l + 1) 
-	{ 
-		lli n = r-l+1; 
-		lli i;
-		lli med[(n+4)/5];
-		for (i=0; i<n/5; i++) 
-			med[i] = findMedian(a+l+i*5, 5); 
-		if (i*5 < n){ 
-			med[i] = findMedian(a+l+i*5, n%5); 
-			i++; 
-		}	 
-		lli mom = (i == 1)? med[i-1]: median(med, 0, i-1, i/2); 
+    
+    if (k > 0 && k <= r - l + 1) 
+    { 
+        lli n = r-l+1; 
+        lli i;
+        lli med[(n+4)/5];
+        for (i=0; i<n/5; i++) 
+            med[i] = findMedian(a+l+i*5, 5); 
+        if (i*5 < n){ 
+            med[i] = findMedian(a+l+i*5, n%5); 
+            i++; 
+        }    
+        lli mom = (i == 1)? med[i-1]: median(med, 0, i-1, i/2); 
 
-		lli pos = division(a, l, r, mom); 
+        lli pos = division(a, l, r, mom); 
 
-		if (pos-l == k-1) 
-			return a[pos]; 
-		if (pos-l > k-1) 
-			return median(a, l, pos-1, k); 
-		return median(a, pos+1, r, k-pos+l-1); 
-	} 
-	return 0; 
+        if (pos-l == k-1) 
+            return a[pos]; 
+        if (pos-l > k-1) 
+            return median(a, l, pos-1, k); 
+        return median(a, pos+1, r, k-pos+l-1); 
+    } 
+    return 0; 
 } 
 
 int main() { 
-	lli q;
-	cin>>q;
-	ask(i,0,q){
-		lli n;
-		cin>>n;
-		lli a[n];
-		lli d1,d2,d3;
-		ask(j,0,n){
-			cin>>d1>>d2;
-			d3  =d1*d1+d2*d2;
-			a[j]=d3;
-		};
-		lli k;
-		
-		if(n%2==0){
-		 	k = n/2 ;
-		}
-		else{
-			k = (n+1)/2;
-		}
-		cout<<sqrt(median(a,0,n-1,k))<<"\n";
-	}
-	return 0; 
-} 
+    lli q;
+    cin>>q;
+    ask(i,0,q){
+        lli n;
+        cin>>n;
+        lli a[n];
+        lli b,c,d;
+        ask(j,0,n){
+            cin>>b>>c;
+            d  = b*b + c*c;
+            a[j]=d;
+        };
+        lli k;
+        
+        if(n%2==0){
+            k = n/2 ;
+        }
+        else{
+            k = (n+1)/2;
+        }
+        cout<<sqrt(median(a,0,n-1,k))<<"\n";
+    }
+    return 0; 
+}
