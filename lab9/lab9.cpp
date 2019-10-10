@@ -35,16 +35,13 @@ typedef long double ldb;
 using namespace std;
 
 double slope(int x,int y,int z,int w){
-	if(x ==z){
-		return 1000000000000000000;
-	}
-	return ((y-w)/(x-z));
+    if(x ==z){
+        return 1000000000000000000;
+    }
+    return ((double)(w-y)/(z-x));
 }
 
-int orientation(lli a,lli b,lli c,lli d,lli e,lli f) 
-{ 
-    // See 10th slides from following link for derivation 
-    // of the formula 
+int orientation(lli a,lli b,lli c,lli d,lli e,lli f) {
     int val = (d -b) * (e - c) - 
               (c - a) * (f - d); 
   
@@ -54,79 +51,64 @@ int orientation(lli a,lli b,lli c,lli d,lli e,lli f)
 } 
 
 int main(){
-	lli t;
-	cin>>t;
-	lli a,b;
-	vector<pair<lli,lli>>c;
-	lli x= LONG_MAX,y = LONG_MAX;
-	ask(i,0,t){
-		cin>>a>>b;
-		c.pb(mp(a,b));
-		if(a<=x){
-			if(b<y){
-				x=a;
-				y=b;
-				//c.popb();
-			}
-		}
-		/*if(a<x){
-			x=a;
-			b=y;
-			//c.popb();
-		}*/
-	}
-	ask(i,0,t){
-		if(c[i].F==x && c[i].S==y){
-			c.erase(c.begin()+i);
-			break;
-		}
-	}
-	cout<<"\n";
-	o2(x,y);
-	cout<<"\n";
-	vector<tuple<double,lli,lli>> d;
-	ask(i,0,t-1){
-		d.pb(mt(slope(x,y,c[i].F,c[i].S),c[i].F,c[i].S));
-	};
-	sort(d.begin(),d.end());
-	stack<pair<lli,lli>> e;
-	e.push(mp(x,y));
-	e.push(mp(get<1>(d[0]),get<2>(d[0])));
-	o2(get<1>(d[0]),get<2>(d[0]));
-	cout<<"\n";
-	lli q,w,r,z,p,s;
-	q = x;
-	w = y;
-	r = get<1>(d[0]);
-	z = get<2>(d[0]);
-	ask(i,1,t-1){
-		p = get<1>(d[i]);
-		s = get<2>(d[i]);
-		o2(orientation(q,w,r,z,p,s),1);
-		if(orientation(q,w,r,z,p,s) == 2){
-			e.push(mp(p,s));
-			o3(2,p,s);
-			q = r;
-			w = z;
-			r= p;
-			z= s;
-		}
-		else{
-			e.pop();
-			e.push(mp(p,s));
-			o3(3,p,s);
-			r=p;z=s;
-			
-		}
-		
-	}
-
-	while(!e.empty()){
-		lli g,h;
-		g = e.top().F;
-		h= e.top().S;
-		cout<<g<<" "<<h<<"\n";
-		e.pop();
-	}
-	return 0;
+    lli t;
+    cin>>t;
+    lli a,b;
+    vector<pair<lli,lli>>c;
+    lli x,y;
+    ask(i,0,t){
+        cin>>a>>b;
+        c.pb(mp(a,b));
+    }
+    sort(c.begin(),c.end());
+    x = c[0].F;
+    y = c[0].S;
+    vector<tuple<double,lli,lli>> d;
+    ask(i,1,t){
+        d.pb(mt(slope(x,y,c[i].F,c[i].S),c[i].F,c[i].S));
+    };
+    sort(d.begin(),d.end());
+    stack<pair<lli,lli>> e;
+    e.push(mp(x,y));
+    e.push(mp(get<1>(d[0]),get<2>(d[0])));
+    lli q,w,r,z,p,s;
+    q = x;
+    w = y;
+    r = get<1>(d[0]);
+    z = get<2>(d[0]);
+    ask(i,1,t-1){
+        p = get<1>(d[i]);
+        s = get<2>(d[i]);
+        if(orientation(q,w,r,z,p,s) == 2 ){
+            e.push(mp(p,s));
+            q = r;
+            w = z;
+            r= p;
+            z= s;
+        }
+        else{
+            while(orientation(q,w,r,z,p,s) != 2 && e.size()!= 0){
+                e.pop(); 
+                r= q;
+                z = w;
+                q = e.top().F;
+                w = e.top().S;
+            }
+            e.push(mp(r,z));
+            e.push(mp(p,s));
+            q = r;
+            w = z;
+            r=p;
+            z=s;
+        }
+    }
+    o1(e.size());
+    while(!e.empty()){
+        lli g,h;
+        g = e.top().F;
+        h= e.top().S;
+        cout<<g<<" "<<h<<"\n";
+        e.pop();
+    }
+    return 0;
 }
